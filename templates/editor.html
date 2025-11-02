@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSM Lane Editor</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/editor.css') }}">
+</head>
+<body>
+    <!-- Хедер -->
+    <div class="header">
+        <div class="header-left">
+            <span class="logo">🛣️</span>
+            <span class="app-title">OSM Lane Editor</span>
+        </div>
+        <div class="user-info">
+            <span class="user-name">👤 {{ user.display_name or user.username }}</span>
+            <button class="history-btn" onclick="openHistoryModal()">📋 История</button>
+            <a href="{{ url_for('logout') }}" class="logout-btn">🚪 Выйти</a>
+        </div>
+    </div>
+
+    <!-- Панель поиска -->
+    <div class="search-panel">
+        <input type="text" class="search-input" placeholder="Введите адрес или название дороги..." id="searchInput">
+        <button class="search-btn" onclick="searchLocation()">🔍 Найти</button>
+        <button class="load-btn" onclick="loadRoadsInView()">🛣 Загрузить дороги</button>
+    </div>
+
+    <!-- Карта -->
+    <div id="map"></div>
+
+    <!-- Модальное окно редактора дорог -->
+    <div id="roadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Редактор полос движения</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            
+            <div class="modal-body">
+                <!-- Информация о дороге -->
+                <div class="road-info">
+                    <h3>Информация о дороге (Way <span id="wayId"></span>)</h3>
+                    <div id="roadTags" class="tags-grid"></div>
+                </div>
+
+                <!-- Валидация -->
+                <div id="validationPanel" class="validation-panel" style="display: none;">
+                    <h4>Проверка изменений</h4>
+                    <div id="validationResults"></div>
+                </div>
+
+                <!-- Редактор полос -->
+                <div class="lanes-editor">
+                    <div class="lanes-header">
+                        <span>Полосы движения</span>
+                        <div class="lane-controls">
+                            <button class="add-lane-btn" onclick="addLane()">➕ Добавить</button>
+                            <button class="remove-lane-btn" onclick="removeLane()">➖ Удалить</button>
+                        </div>
+                    </div>
+                    
+                    <div id="lanesList" class="lanes-list"></div>
+                </div>
+
+                <!-- Превью OSM тегов -->
+                <div class="osm-preview">
+                    <h4>Предварительный просмотр изменений</h4>
+                    <div id="osmTags" class="osm-tags"></div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">Отмена</button>
+                <button class="btn btn-primary" onclick="validateChanges()">🔍 Проверить</button>
+                <button class="btn btn-success" onclick="saveChanges()">💾 Отправить в OSM</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно истории -->
+    <div id="historyModal" class="modal history-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>История изменений</h2>
+                <span class="close" onclick="closeHistoryModal()">&times;</span>
+            </div>
+            
+            <div class="modal-body">
+                <div id="historyList" class="history-list"></div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeHistoryModal()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast уведомления -->
+    <div id="toast" class="toast">
+        <div id="toastMessage"></div>
+    </div>
+
+    <!-- Подключаем скрипты -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='js/editor.js') }}"></script>
+</body>
+</html>

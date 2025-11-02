@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактор дорожной разметки</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div id="app">
+        <!-- Панель инструментов -->
+        <div id="toolbar" class="toolbar">
+            <button id="add-road" class="btn">🛣 Добавить дорогу</button>
+            <button id="add-lane-left" class="btn">➕ Полоса слева</button>
+            <button id="add-lane-right" class="btn">➕ Полоса справа</button>
+            <button id="remove-lane" class="btn">➖ Удалить полосу</button>
+            
+            <div class="separator"></div>
+            
+            <button id="type-general" class="btn type-btn">Обычная</button>
+            <button id="type-bus" class="btn type-btn">A (Bus)</button>
+            <button id="type-bike" class="btn type-btn">🚲</button>
+            <button id="type-parking" class="btn type-btn">🅿</button>
+            
+            <div class="separator"></div>
+            
+            <button id="turn-left" class="btn turn-btn">←</button>
+            <button id="turn-through" class="btn turn-btn">↑</button>
+            <button id="turn-right" class="btn turn-btn">→</button>
+            <button id="turn-through-right" class="btn turn-btn">↑→</button>
+            <button id="turn-through-left" class="btn turn-btn">←↑</button>
+            <button id="turn-uturn" class="btn turn-btn">⤴︎</button>
+            
+            <div class="separator"></div>
+            
+            <button id="export" class="btn">💾 Экспорт</button>
+            <button id="save" class="btn">💾 Сохранить</button>
+        </div>
+        
+        <!-- Статус панель -->
+        <div id="status" class="status">
+            <span id="status-text">Готов к работе</span>
+            <span id="selected-lane"></span>
+        </div>
+        
+        <!-- Холст для рисования -->
+        <svg id="canvas" class="canvas">
+            <!-- Здесь будут отрисованы дороги и полосы -->
+        </svg>
+    </div>
+
+    <!-- Модальное окно для уведомлений -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="modal-text"></p>
+        </div>
+    </div>
+
+    <!-- Подключаем JavaScript -->
+    <script src="{{ url_for('static', filename='js/geometry.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/icons.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

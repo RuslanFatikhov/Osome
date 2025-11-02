@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSM Lane Editor - Вход</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">🛣️</div>
+        <h1>OSM Lane Editor</h1>
+        <p class="subtitle">Редактор полос движения для OpenStreetMap</p>
+
+        <!-- Flash сообщения -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="features">
+            <h3>Возможности:</h3>
+            <ul class="feature-list">
+                <li>Визуальное редактирование полос движения</li>
+                <li>Настройка направлений поворотов</li>
+                <li>Поддержка специальных полос (автобус, велосипед)</li>
+                <li>Валидация изменений</li>
+                <li>Прямая интеграция с OpenStreetMap</li>
+                <li>История изменений</li>
+            </ul>
+        </div>
+
+        <a href="{{ url_for('oauth_authorize') }}" class="oauth-button">
+            🔐 Войти через OpenStreetMap
+        </a>
+
+        <div class="warning">
+            <strong>⚠️ Требуется аккаунт OpenStreetMap</strong><br>
+            Для использования редактора необходимо авторизоваться через ваш аккаунт OSM.
+        </div>
+
+        <div class="info-text">
+            Приложение запросит разрешения на чтение и изменение данных карты.<br>
+            Все изменения будут сохранены в вашем имени в OpenStreetMap.
+        </div>
+    </div>
+</body>
+</html>
